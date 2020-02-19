@@ -5,9 +5,9 @@
 ; dot product of two arrays of unsigned integers
 
 
-       include 371-prologue.inc   
+       include 371-prologue.inc
 
-          
+
        .const
 BUFFER_LENGTH equ 50
 ARR_OFFSET    equ 4
@@ -33,9 +33,8 @@ result  dword ?
 ; input:     eax holds the integer
 ; output:    prints the integer
 ; destroys:  nothing
-; credit:    Dr. Binkley
 ;
-p_int   proc    
+p_int   proc
         push eax
         push ebx
         push ecx
@@ -54,7 +53,7 @@ p_int   proc
         pop  ecx
         pop  ebx
         pop  eax
-        ret 
+        ret
 p_int   endp
 
 
@@ -74,21 +73,21 @@ r_arr   proc
         mov  eax, ARR_SIZE
         call p_int
 
-        mov  ebx, 0             ; i = 0
+        mov  ebx, 0
 
 forloop:
         cmp  ebx, ARR_SIZE
-        jnl  endfor             ; i < ARR_SIZE
+        jnl  endfor
         push BUFFER_LENGTH
         push offset buffer
         call StdIn
         push offset buffer
         call atodw
         mov  temp[ebx*ARR_OFFSET], eax
-        inc  ebx               
+        inc  ebx
         jmp  forloop
 
-endfor: 
+endfor:
         pop  edx
         pop  ecx
         pop  ebx
@@ -108,17 +107,17 @@ dot     proc
         push ecx
         push edx
 
-        mov  ebx, 0                 ; i = 0
+        mov  ebx, 0
         mov  edx, 0
 
 forloop:
         cmp  ebx, ARR_SIZE
-        jnl  endfor                 ; i < ARR_SIZE
-        mov  eax, a[ebx*ARR_OFFSET]     
-        imul eax, b[ebx*ARR_OFFSET] ; a[i] * b[i]
+        jnl  endfor
+        mov  eax, a[ebx*ARR_OFFSET]
+        imul eax, b[ebx*ARR_OFFSET]
         add  edx, eax
         mov  eax, 0
-        inc  ebx                    
+        inc  ebx
         jmp  forloop
 
 endfor:
@@ -126,7 +125,7 @@ endfor:
         push eax
         push offset format
         call p_int
-        
+
         pop  edx
         pop  ecx
         pop  ebx
@@ -142,11 +141,11 @@ dot     endp
 ;
 main    proc
         push ebx
-        mov  ebx, 0                 ; i = 0
-        call r_arr                  ; read in first array
-        
+        mov  ebx, 0
+        call r_arr
+
 arr_one:
-        cmp  ebx, ARR_SIZE          ; copy array temp to a
+        cmp  ebx, ARR_SIZE
         jnl  end_one
         mov  eax, temp[ebx*ARR_OFFSET]
         mov  a[ebx*ARR_OFFSET], eax
@@ -154,28 +153,27 @@ arr_one:
         jmp  arr_one
 
 end_one:
-        mov  ebx, 0                 ; i = 0
-        call r_arr                  ; read in second array
-        
+        mov  ebx, 0
+        call r_arr
+
 arr_two:
-        cmp  ebx, ARR_SIZE          ; copy array temp to b
+        cmp  ebx, ARR_SIZE
         jnl  end_two
         mov  eax, temp[ebx*ARR_OFFSET]
         mov  b[ebx*ARR_OFFSET], eax
         inc  ebx
         jmp  arr_two
 
-end_two:    
-        push offset prod            ; result prompt
+end_two:
+        push offset prod
         call StdOut
-        
-        call dot                    ; compute dot product
+
+        call dot
         push eax
-        call p_int                  ; print result
+        call p_int                 
         pop  ebx
-  
+
         push 0
         call ExitProcess
 main    endp
         end  main
-        
