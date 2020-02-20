@@ -1,4 +1,4 @@
-; This is my code
+; This is my code!
 ; Jacob Greenberg
 ; CS371 Assignment 3
 ; This file contains a program that computes the vector
